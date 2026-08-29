@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Email Nurture Flow — SharePal</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --blue:#1a4d8f;
+    --blue-border:#3d7dd6;
+    --green:#0f5140;
+    --green-border:#2fae83;
+    --amber:#7a4a06;
+    --amber-border:#d98c1f;
+    --gray:#3a3f47;
+    --gray-border:#5a616c;
+    --line:#4b5158;
+    --text:#e8eaed;
+    --subtext:#9aa4af;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    padding:40px 20px 80px;
+  }
+  h1{
+    text-align:center;
+    font-size:20px;
+    font-weight:600;
+    margin-bottom:4px;
+  }
+  .subtitle{
+    text-align:center;
+    color:var(--subtext);
+    font-size:13px;
+    margin-bottom:40px;
+  }
+  .hint{
+    text-align:center;
+    color:#6b7684;
+    font-size:12px;
+    margin-bottom:50px;
+    font-style:italic;
+  }
+
+  .flow{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    min-width:900px;
+    max-width:1100px;
+    margin:0 auto;
+    position:relative;
+  }
+
+  .row{
+    display:flex;
+    justify-content:center;
+    gap:24px;
+    position:relative;
+    width:100%;
+  }
+
+  .node{
+    border-radius:8px;
+    padding:16px 22px;
+    font-weight:600;
+    font-size:14px;
+    text-align:center;
+    cursor:default;
+    border:1px solid transparent;
+    min-width:140px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    transition:transform .15s ease, box-shadow .15s ease;
+    position:relative;
+    z-index:2;
+  }
+  .node .sub{
+    font-weight:400;
+    font-size:11.5px;
+    margin-top:3px;
+    opacity:.85;
+  }
+  .node.clickable{
+    cursor:pointer;
+    text-decoration:none;
+    color:inherit;
+  }
+  .node.clickable:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 18px rgba(0,0,0,.4);
+  }
+  .node.clickable::after{
+    content:"✉ open";
+    position:absolute;
+    bottom:-20px;
+    font-size:10px;
+    color:#6b7684;
+    font-weight:400;
+    opacity:0;
+    transition:opacity .15s ease;
+  }
+  .node.clickable:hover::after{
+    opacity:1;
+  }
+
+  .blue{ background:var(--blue); border-color:var(--blue-border); }
+  .green{ background:var(--green); border-color:var(--green-border); }
+  .amber{ background:var(--amber); border-color:var(--amber-border); }
+  .gray{ background:var(--gray); border-color:var(--gray-border); }
+
+  .green.wide, .gray.wide{ min-width:220px; }
+
+  /* connector rows */
+  .connector{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    position:relative;
+    height:40px;
+  }
+  .connector svg{ overflow:visible; }
+
+  .spacer-row{ display:flex; justify-content:center; gap:24px; width:100%; }
+
+</style>
+</head>
+<body>
+
+<h1>SharePal Asset Partner Email Journey</h1>
+<div class="hint">Click any blue "Email" box to open it</div>
+
+<div class="flow">
+
+  <!-- Email 1 -->
+  <div class="row">
+    <a class="node blue clickable" href="email1.html">Email 1</a>
+  </div>
+
+  <div class="connector">
+    <svg width="620" height="40">
+      <path d="M 310 0 L 310 15 L 90 15 L 90 40 M 310 15 L 310 40 M 310 15 L 530 15 L 530 40"
+            stroke="#4b5158" stroke-width="1.5" fill="none"/>
+    </svg>
+  </div>
+
+  <!-- Row 2: No open / Opened no click / Link clicked -->
+  <div class="row">
+    <div class="node gray">No open</div>
+    <div class="node gray">Opened, no click</div>
+    <div class="node green wide">Link clicked<div class="sub">visited platform</div></div>
+  </div>
+
+  <div class="connector">
+    <svg width="700" height="40">
+      <path d="M 90 0 L 90 40" stroke="#4b5158" stroke-width="1.5" fill="none"/>
+      <path d="M 320 0 L 320 40" stroke="#4b5158" stroke-width="1.5" fill="none"/>
+      <path d="M 540 0 L 540 15 L 400 15 L 400 40 M 540 15 L 540 40 M 540 15 L 680 15 L 680 40"
+            stroke="#4b5158" stroke-width="1.5" fill="none"/>
+    </svg>
+  </div>
+
+  <!-- Row 3: Resend / Email2 + Direct conversion / Lead capture flow -->
+  <div class="row">
+    <div class="node gray">Resend</div>
+    <a class="node blue clickable" href="email2.html">Email 2</a>
+    <div class="node green">Direct conversion</div>
+    <div class="node gray wide">Lead capture flow</div>
+  </div>
+
+  <div class="connector" style="justify-content:flex-end; padding-right:60px;">
+    <svg width="300" height="40">
+      <path d="M 250 0 L 250 15 L 130 15 L 130 40 M 250 15 L 250 40"
+            stroke="#4b5158" stroke-width="1.5" fill="none"/>
+    </svg>
+  </div>
+
+  <!-- Row 4: Form filled / Form not filled -->
+  <div class="row" style="justify-content:flex-end; padding-right:20px;">
+    <div class="node green">Form filled</div>
+    <div class="node amber">Form not filled</div>
+  </div>
+
+  <div class="connector" style="justify-content:flex-end; padding-right:110px;">
+    <svg width="60" height="40">
+      <path d="M 30 0 L 30 40" stroke="#4b5158" stroke-width="1.5" fill="none"/>
+    </svg>
+  </div>
+
+  <!-- Row 5: Email 3 -->
+  <div class="row" style="justify-content:flex-end; padding-right:20px;">
+    <a class="node blue clickable" href="email3.html">Email 3</a>
+  </div>
+
+</div>
+
+</body>
+</html>
