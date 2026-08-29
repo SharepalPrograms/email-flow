@@ -32,37 +32,45 @@
     font-weight:600;
     margin-bottom:4px;
   }
-  .subtitle{
-    text-align:center;
-    color:var(--subtext);
-    font-size:13px;
-    margin-bottom:40px;
-  }
   .hint{
     text-align:center;
     color:#6b7684;
     font-size:12px;
-    margin-bottom:50px;
+    margin-bottom:60px;
     font-style:italic;
   }
 
   .flow{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    min-width:900px;
-    max-width:1100px;
-    margin:0 auto;
     position:relative;
+    max-width:1200px;
+    margin:0 auto;
+  }
+
+  #connector-svg{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:1;
+    overflow:visible;
+  }
+  #connector-svg path{
+    stroke:var(--line);
+    stroke-width:1.5;
+    fill:none;
   }
 
   .row{
     display:flex;
     justify-content:center;
-    gap:24px;
+    gap:28px;
     position:relative;
-    width:100%;
+    z-index:2;
+    margin-bottom:64px;
   }
+  .row:last-child{ margin-bottom:0; }
 
   .node{
     border-radius:8px;
@@ -70,22 +78,22 @@
     font-weight:600;
     font-size:14px;
     text-align:center;
-    cursor:default;
     border:1px solid transparent;
-    min-width:140px;
+    min-width:150px;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
     transition:transform .15s ease, box-shadow .15s ease;
     position:relative;
-    z-index:2;
   }
   .node .sub{
     font-weight:400;
     font-size:11.5px;
-    margin-top:3px;
+    margin-top:5px;
     opacity:.85;
+    max-width:260px;
+    line-height:1.4;
   }
   .node.clickable{
     cursor:pointer;
@@ -115,22 +123,10 @@
   .amber{ background:var(--amber); border-color:var(--amber-border); }
   .gray{ background:var(--gray); border-color:var(--gray-border); }
 
-  .green.wide, .gray.wide{ min-width:220px; }
+  .wide{ min-width:230px; }
   .blue.wide{ min-width:280px; }
-  .node .sub{ max-width:260px; }
 
-  /* connector rows */
-  .connector{
-    width:100%;
-    display:flex;
-    justify-content:center;
-    position:relative;
-    height:40px;
-  }
-  .connector svg{ overflow:visible; }
-
-  .spacer-row{ display:flex; justify-content:center; gap:24px; width:100%; }
-
+  .row.offset-right{ justify-content:flex-end; padding-right:40px; }
 </style>
 </head>
 <body>
@@ -138,69 +134,111 @@
 <h1>SharePal Asset Partner Email Journey</h1>
 <div class="hint">Click any blue "Email" box to open it</div>
 
-<div class="flow">
+<div class="flow" id="flow">
+  <svg id="connector-svg"></svg>
 
-  <!-- Email 1 -->
+  <!-- Row 1 -->
   <div class="row">
-    <a class="node blue clickable wide" href="email1.html">Email 1<div class="sub">"Pay nothing for your next rental from SharePal"</div></a>
+    <a class="node blue clickable wide" id="email1" href="email1.html">Email 1<div class="sub">"Pay nothing for your next rental from SharePal"</div></a>
   </div>
 
-  <div class="connector">
-    <svg width="620" height="40">
-      <path d="M 310 0 L 310 15 L 90 15 L 90 40 M 310 15 L 310 40 M 310 15 L 530 15 L 530 40"
-            stroke="#4b5158" stroke-width="1.5" fill="none"/>
-    </svg>
-  </div>
-
-  <!-- Row 2: No open / Opened no click / Link clicked -->
+  <!-- Row 2 -->
   <div class="row">
-    <div class="node gray">No open</div>
-    <div class="node gray">Opened, no click</div>
-    <div class="node green wide">Link clicked<div class="sub">visited platform</div></div>
+    <div class="node gray" id="noopen">No open</div>
+    <div class="node gray" id="openednoclick">Opened, no click</div>
+    <div class="node green wide" id="linkclicked">Link clicked<div class="sub">visited platform</div></div>
   </div>
 
-  <div class="connector">
-    <svg width="700" height="40">
-      <path d="M 90 0 L 90 40" stroke="#4b5158" stroke-width="1.5" fill="none"/>
-      <path d="M 320 0 L 320 40" stroke="#4b5158" stroke-width="1.5" fill="none"/>
-      <path d="M 540 0 L 540 15 L 400 15 L 400 40 M 540 15 L 540 40 M 540 15 L 680 15 L 680 40"
-            stroke="#4b5158" stroke-width="1.5" fill="none"/>
-    </svg>
-  </div>
-
-  <!-- Row 3: Resend / Email2 + Direct conversion / Lead capture flow -->
+  <!-- Row 3 -->
   <div class="row">
-    <div class="node gray wide">Resend<div class="sub">"Now you can rent gear for free"</div></div>
-    <a class="node blue clickable wide" href="email2.html">Email 2<div class="sub">"Get ₹1,569 monthly from rental gear"</div></a>
-    <div class="node green">Direct conversion</div>
-    <div class="node gray wide">Lead capture flow</div>
+    <div class="node gray wide" id="resend">Resend<div class="sub">"Now you can rent gear for free"</div></div>
+    <a class="node blue clickable wide" id="email2" href="email2.html">Email 2<div class="sub">"Get ₹1,569 monthly from rental gear"</div></a>
+    <div class="node green" id="directconversion">Direct conversion</div>
+    <div class="node gray wide" id="leadcapture">Lead capture flow</div>
   </div>
 
-  <div class="connector" style="justify-content:flex-end; padding-right:60px;">
-    <svg width="300" height="40">
-      <path d="M 250 0 L 250 15 L 130 15 L 130 40 M 250 15 L 250 40"
-            stroke="#4b5158" stroke-width="1.5" fill="none"/>
-    </svg>
+  <!-- Row 4 -->
+  <div class="row offset-right">
+    <div class="node green" id="formfilled">Form filled</div>
+    <div class="node amber" id="formnotfilled">Form not filled</div>
   </div>
 
-  <!-- Row 4: Form filled / Form not filled -->
-  <div class="row" style="justify-content:flex-end; padding-right:20px;">
-    <div class="node green">Form filled</div>
-    <div class="node amber">Form not filled</div>
-  </div>
-
-  <div class="connector" style="justify-content:flex-end; padding-right:110px;">
-    <svg width="60" height="40">
-      <path d="M 30 0 L 30 40" stroke="#4b5158" stroke-width="1.5" fill="none"/>
-    </svg>
-  </div>
-
-  <!-- Row 5: Email 3 -->
-  <div class="row" style="justify-content:flex-end; padding-right:20px;">
-    <a class="node blue clickable wide" href="email3.html">Email 3<div class="sub">"Still have questions? Let's talk on WhatsApp"</div></a>
+  <!-- Row 5 -->
+  <div class="row offset-right">
+    <a class="node blue clickable wide" id="email3" href="email3.html">Email 3<div class="sub">"Still have questions? Let's talk on WhatsApp"</div></a>
   </div>
 
 </div>
+
+<script>
+const edges = [
+  ["email1","noopen"],
+  ["email1","openednoclick"],
+  ["email1","linkclicked"],
+  ["noopen","resend"],
+  ["openednoclick","email2"],
+  ["linkclicked","directconversion"],
+  ["linkclicked","leadcapture"],
+  ["leadcapture","formfilled"],
+  ["leadcapture","formnotfilled"],
+  ["formnotfilled","email3"]
+];
+
+function drawConnectors(){
+  const svg = document.getElementById('connector-svg');
+  const flow = document.getElementById('flow');
+  const flowRect = flow.getBoundingClientRect();
+  svg.innerHTML = '';
+  svg.setAttribute('width', flowRect.width);
+  svg.setAttribute('height', flowRect.height);
+
+  const byParent = {};
+  edges.forEach(([p,c])=>{
+    if(!byParent[p]) byParent[p] = [];
+    byParent[p].push(c);
+  });
+
+  Object.entries(byParent).forEach(([parentId, children])=>{
+    const parentEl = document.getElementById(parentId);
+    const pRect = parentEl.getBoundingClientRect();
+    const pX = pRect.left + pRect.width/2 - flowRect.left;
+    const pY = pRect.bottom - flowRect.top;
+
+    const childPoints = children.map(cid=>{
+      const cEl = document.getElementById(cid);
+      const cRect = cEl.getBoundingClientRect();
+      return {
+        x: cRect.left + cRect.width/2 - flowRect.left,
+        y: cRect.top - flowRect.top
+      };
+    });
+
+    const midY = pY + (childPoints[0].y - pY) / 2;
+
+    if(children.length === 1){
+      const c = childPoints[0];
+      const d = `M ${pX} ${pY} L ${pX} ${midY} L ${c.x} ${midY} L ${c.x} ${c.y}`;
+      addPath(svg, d);
+    } else {
+      addPath(svg, `M ${pX} ${pY} L ${pX} ${midY}`);
+      const xs = childPoints.map(p=>p.x);
+      addPath(svg, `M ${Math.min(...xs)} ${midY} L ${Math.max(...xs)} ${midY}`);
+      childPoints.forEach(c=>{
+        addPath(svg, `M ${c.x} ${midY} L ${c.x} ${c.y}`);
+      });
+    }
+  });
+}
+
+function addPath(svg, d){
+  const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+  path.setAttribute('d', d);
+  svg.appendChild(path);
+}
+
+window.addEventListener('load', drawConnectors);
+window.addEventListener('resize', drawConnectors);
+</script>
 
 </body>
 </html>
