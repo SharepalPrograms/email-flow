@@ -40,9 +40,17 @@
     font-style:italic;
   }
 
+  .flow-scroll{
+    width:100%;
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding-bottom:10px;
+  }
+
   .flow{
     position:relative;
-    max-width:1200px;
+    width:1200px;
+    min-width:1200px;
     margin:0 auto;
   }
 
@@ -134,6 +142,7 @@
 <h1>SharePal Asset Partner Email Journey</h1>
 <div class="hint">Click any blue "Email" box to open it</div>
 
+<div class="flow-scroll">
 <div class="flow" id="flow">
   <svg id="connector-svg"></svg>
 
@@ -168,6 +177,7 @@
     <a class="node blue clickable wide" id="email3" href="email3.html">Email 3<div class="sub">"Still have questions? Let's talk on WhatsApp"</div></a>
   </div>
 
+</div>
 </div>
 
 <script>
@@ -238,6 +248,19 @@ function addPath(svg, d){
 
 window.addEventListener('load', drawConnectors);
 window.addEventListener('resize', drawConnectors);
+
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(drawConnectors);
+}
+
+if (window.ResizeObserver) {
+  const ro = new ResizeObserver(()=> drawConnectors());
+  ro.observe(document.getElementById('flow'));
+}
+
+// safety redraw shortly after initial paint, in case fonts/layout settle late
+setTimeout(drawConnectors, 150);
+setTimeout(drawConnectors, 500);
 </script>
 
 </body>
